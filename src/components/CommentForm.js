@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Control, Form, Errors } from 'react-redux-form';
 import { Modal, ModalHeader, ModalBody,
             Button, Row, Col, Label } from 'reactstrap';
 
@@ -23,9 +23,10 @@ class CommentForm extends Component {
 	}
 	
 	handleSubmit(values) {
+				this.toggleModal();
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        //event.preventDefault();
+        //alert('Current State is: ' + JSON.stringify(values));
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.commentmessage);
   }
 	
 	render() {
@@ -35,10 +36,10 @@ class CommentForm extends Component {
 			<Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
 					<ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
 					<ModalBody>
-							<LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+							<Form model="comment" onSubmit={(values) => this.handleSubmit(values)}>
 							
 									<Row className="form-group">
-											<Label htmlFor="rating" sm="2">Rating</Label>
+											<Label htmlFor="rating" sm={2}>Rating</Label>
 											<Col sm={{size: 12, offset: 0}}>
                           <Control.select model=".rating" name="rating"
                               className="form-control">
@@ -52,9 +53,9 @@ class CommentForm extends Component {
 									</Row>
 									
 									<Row className="form-group">
-                      <Label htmlFor="yourname" sm="12">Your Name</Label>
-                      <Col sm="12">
-                          <Control.text model=".yourname" id="yourname" name="yourname"
+                      <Label htmlFor="author" sm={12}>Your Name</Label>
+                      <Col sm={12}>
+                          <Control.text model=".author" id="author" name="author"
                               placeholder="Your Name"
                               className="form-control"
                               validators={{
@@ -89,7 +90,7 @@ class CommentForm extends Component {
                           </Button>
                       </Col>
                   </Row>
-							</LocalForm>
+							</Form>
 					</ModalBody>
 			</Modal>
 			</div>
